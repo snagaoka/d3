@@ -1,0 +1,12 @@
+{
+  "name": "d3",
+  "version": "0.0.0",
+  "authors": [
+    "Tony Gaskell <thgaskell@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "d3": "~3.4.13"
+  }
+}
