@@ -71,6 +71,12 @@ gulp.task('html', function() {
     .pipe(gulp.dest(paths.dist));
 });
 
+// Copy data to public
+gulp.task('data', function() {
+  return  gulp.src('./assets/data/**/*.*', { base: './assets/data' })
+    .pipe(gulp.dest(paths.dist + '/data'));
+});
+
 // Watch files for changes
 gulp.task('watch', function() {
   gulp.watch('index.html', ['html']);
@@ -96,7 +102,7 @@ gulp.task('serve', function() {
 });
 
 // Build and Deploy task
-gulp.task('build', ['less', 'html', 'js', 'bower']);
+gulp.task('build', ['less', 'html', 'js', 'bower', 'data']);
 
 // Default task
-gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('default', ['build', 'serve', 'watch', 'data']);
