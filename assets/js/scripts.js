@@ -20,7 +20,7 @@ d3.csv("data/Hawaii_EV_Charging_Stations_02072013.csv", type, function(error, da
 
   // Preparing margins
   var margin = {top: 20, right: 30, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = 1200 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
   var chart = d3.select(".chart")
@@ -40,12 +40,30 @@ d3.csv("data/Hawaii_EV_Charging_Stations_02072013.csv", type, function(error, da
 
   var x = d3.scale.ordinal()
     .domain(d3.range(chargingData.length))
-    .rangeBands([100, 500], 0.5);
+    .rangeBands([100, 1260], 0.5);
 
   // Adding Axes
   var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("bottom");
+    .orient("bottom")
+    .ticks(15);
+
+  var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);  
+
+  var xGuide = d3.select('svg').append('g')
+    xAxis(xGuide)
+    xGuide.attr('transform', 'translate(-60, 480)')
+    xGuide.selectAll('path')
+      .style({ fill: 'none', stroke: "#000"});
+
+  var yGuide = d3.select('svg').append('g')
+    yAxis(yGuide)
+    yGuide.attr('transform', 'translate(30, 20)')
+    yGuide.selectAll('path')
+      .style({ fill: 'none', stroke: "#000"});
 
   // chart.append9("g")
   //   .attr("class", "x axis")
@@ -65,18 +83,24 @@ d3.csv("data/Hawaii_EV_Charging_Stations_02072013.csv", type, function(error, da
 
 
   bars.append("rect")
+      .attr("x", function(d, i) { return i * 2; })
       .attr("y", function(d){ return y(d.values); })
       .attr("height", function(d) { return height - y(d.values); })
-      .attr("width", barWidth - 1);
+      .attr("width", barWidth);
 
   bars.append("text")
       .attr("x", barWidth / 2)
-      .attr("y", function(d) { return y(d.values) + 3; })
+      // .attr("x", function(d, i) { return i * 10; })
+      .attr("y", function(d) { return y(d.values) - 20; })
       .attr("dy", ".75em")
       .text(function(d) { return d.values; });
 
   bars.append("text")
       .text(function(d, i) { return d.Manufacturers; }); // show Manufacturer names?
+
+  var manufacturers = chargingData.map( function(data){ return data.key; });
+
+
 
   // bars.attr({
   //   x: function(d, i) { return i * 15 },
